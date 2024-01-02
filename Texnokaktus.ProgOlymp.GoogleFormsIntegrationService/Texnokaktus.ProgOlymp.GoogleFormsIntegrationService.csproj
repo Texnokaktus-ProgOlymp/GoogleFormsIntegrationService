@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic\Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.csproj" />
+        <ProjectReference Include="..\Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options\Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options.csproj" />
     </ItemGroup>
 
 </Project>

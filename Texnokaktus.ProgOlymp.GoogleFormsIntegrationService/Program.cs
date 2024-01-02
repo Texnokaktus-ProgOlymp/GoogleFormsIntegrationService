@@ -1,7 +1,10 @@
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.Secrets.json", false);
 
 // Add services to the container.
 builder.Services
@@ -9,6 +12,7 @@ builder.Services
        .AddControllersWithViews();
 
 builder.Services
+       .AddServiceOptions()
        .AddGoogleClientServices()
        .AddLogicServices()
        .AddStackExchangeRedisCache(options => options.Configuration = "raspberrypi.local");

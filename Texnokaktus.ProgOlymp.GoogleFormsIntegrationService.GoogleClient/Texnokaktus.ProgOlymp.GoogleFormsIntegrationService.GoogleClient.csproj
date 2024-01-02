@@ -11,4 +11,8 @@
         <PackageReference Include="RestSharp" Version="110.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options\Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options.csproj" />
+    </ItemGroup>
+
 </Project>
