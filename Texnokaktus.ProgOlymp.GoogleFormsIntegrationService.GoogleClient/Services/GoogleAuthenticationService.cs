@@ -11,7 +11,9 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Servi
 internal class GoogleAuthenticationService(ILogger<GoogleAuthenticationService> logger,
                                            IOptions<GoogleAppParameters> options) : IGoogleAuthenticationService
 {
-    private static readonly string Scope = string.Join(' ', "https://www.googleapis.com/auth/forms.responses.readonly");
+    private static readonly string Scope = string.Join(' ',
+                                                       "https://www.googleapis.com/auth/forms.responses.readonly",
+                                                       "https://www.googleapis.com/auth/forms.body.readonly");
 
     public string GetGoogleOAuthUrl(string localRedirectUri)
     {
