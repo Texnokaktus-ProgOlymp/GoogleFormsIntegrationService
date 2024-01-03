@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.Abstractions;
-using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abstractions;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Controllers;
 
@@ -9,6 +8,12 @@ public class GoogleController(LinkGenerator linkGenerator,
                               IGoogleAuthenticationService googleAuthenticationService,
                               ITokenService tokenService) : Controller
 {
+    public async Task<IActionResult> Index()
+    {
+        var accessToken = await tokenService.GetAccessTokenAsync();
+        return View(accessToken is not null);
+    }
+    
     public IActionResult Auth()
     {
         var authUri = googleAuthenticationService.GetGoogleOAuthUrl(RedirectUri);
@@ -27,7 +32,13 @@ public class GoogleController(LinkGenerator linkGenerator,
     {
         var response = await googleAuthenticationService.GetAccessTokenAsync(code, RedirectUri);
         await tokenService.RegisterTokenAsync(response);
-        return RedirectToAction(nameof(HomeController.Index), "Home");
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Revoke()
+    {
+        await tokenService.RevokeTokenAsync();
+        return RedirectToAction(nameof(Index));
     }
 
     private string RedirectUri => linkGenerator.GetUriByAction(HttpContext, nameof(Complete))!;

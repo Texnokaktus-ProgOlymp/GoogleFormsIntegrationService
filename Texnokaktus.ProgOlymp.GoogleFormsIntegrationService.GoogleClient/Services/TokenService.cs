@@ -1,9 +1,8 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Models;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.Abstractions;
-using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abstractions;
 
-namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services;
+namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services;
 
 internal class TokenService(IDistributedCache cache,
                             IGoogleAuthenticationService googleAuthenticationService) : ITokenService
@@ -32,9 +31,17 @@ internal class TokenService(IDistributedCache cache,
         var refreshToken = await cache.GetStringAsync(RefreshTokenKey);
         if (refreshToken is null) return null;
 
-        var response = await googleAuthenticationService.RefreshAuthenticationCodeAsync(refreshToken);
+        var response = await googleAuthenticationService.RefreshAccessTokenAsync(refreshToken);
 
         await RegisterTokenAsync(response);
         return response.AccessToken;
+    }
+
+    public async Task RevokeTokenAsync()
+    {
+        var accessToken = await GetAccessTokenAsync() ?? throw new();
+        await googleAuthenticationService.RevokeTokenAsync(accessToken);
+        await cache.RemoveAsync(AccessTokenKey);
+        await cache.RemoveAsync(RefreshTokenKey);
     }
 }

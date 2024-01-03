@@ -51,13 +51,33 @@ internal class GoogleAuthenticationService(ILogger<GoogleAuthenticationService> 
         return response.Data;
     }
 
-    public async Task<TokenResponse> RefreshAuthenticationCodeAsync(string refreshToken)
+    public async Task<TokenResponse> RefreshAccessTokenAsync(string refreshToken)
     {
         using var client = new RestClient("https://oauth2.googleapis.com");
         var request = new RestRequest("token").AddParameter("client_id", options.Value.ClientId)
                                               .AddParameter("client_secret", options.Value.ClientSecret)
                                               .AddParameter("grant_type", "refresh_token")
                                               .AddParameter("refresh_token", refreshToken);
+
+        var response = await client.ExecutePostAsync<TokenResponse>(request);
+
+        if (!response.IsSuccessful)
+        {
+            if (response.ErrorException is not null)
+                throw new GoogleAuthenticationException("An error occurred while requesting the access token", response.ErrorException);
+            throw new GoogleAuthenticationException("An error occurred while requesting the access token");
+        }
+
+        if (response.Data is null)
+            throw new GoogleAuthenticationException("Invalid data from OAuth server");
+
+        return response.Data;
+    }
+
+    public async Task<TokenResponse> RevokeTokenAsync(string accessToken)
+    {
+        using var client = new RestClient("https://oauth2.googleapis.com");
+        var request = new RestRequest("revoke").AddParameter("token", accessToken);
 
         var response = await client.ExecutePostAsync<TokenResponse>(request);
 

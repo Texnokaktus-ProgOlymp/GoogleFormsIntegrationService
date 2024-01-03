@@ -1,0 +1,18 @@
+@model bool
+
+@{
+    ViewBag.Title = "Google Authentication Check";
+}
+
+<h1>Google Authentication Check</h1>
+
+@if (Model)
+{
+    <p>The application is authenticated.</p>
+    <p>You can <a asp-action="Revoke">revoke</a> access.</p>
+}
+else
+{
+    <p>The application is not authenticated.</p>
+    <p>Please, <a asp-action="Auth">authenticate</a>.</p>
+}

@@ -6,5 +6,6 @@ public interface IGoogleAuthenticationService
 {
     string GetGoogleOAuthUrl(string localRedirectUri);
     Task<TokenResponse> GetAccessTokenAsync(string code, string localRedirectUrl);
-    Task<TokenResponse> RefreshAuthenticationCodeAsync(string refreshToken);
+    Task<TokenResponse> RefreshAccessTokenAsync(string refreshToken);
+    Task<TokenResponse> RevokeTokenAsync(string accessToken);
 }
