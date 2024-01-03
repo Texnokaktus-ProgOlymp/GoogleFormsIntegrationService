@@ -11,6 +11,7 @@ public static class DiExtensions
     public static IServiceCollection AddGoogleClientServices(this IServiceCollection services) =>
         services.AddScoped<IGoogleAuthenticationService, GoogleAuthenticationService>()
                 .AddScoped<ITokenService, TokenService>()
+                .AddScoped<IGoogleFormsService, GoogleFormsService>()
                 .AddScoped<IAuthenticator>(provider =>
                  {
                      var tokenService = provider.GetRequiredService<ITokenService>();
