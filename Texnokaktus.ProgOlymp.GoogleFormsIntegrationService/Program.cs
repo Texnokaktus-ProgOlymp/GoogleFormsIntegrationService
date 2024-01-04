@@ -1,5 +1,7 @@
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Jobs;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic;
@@ -16,6 +18,7 @@ builder.Services
        .AddControllersWithViews();
 
 builder.Services
+       .AddDataAccess(optionsBuilder => optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")))
        .AddServiceOptions()
        .AddGoogleClientServices()
        .AddLogicServices()
@@ -66,4 +69,4 @@ app.MapControllerRoute(
                        name: "default",
                        pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+await app.RunAsync();
