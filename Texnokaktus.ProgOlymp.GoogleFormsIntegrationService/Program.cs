@@ -1,6 +1,9 @@
 using MassTransit;
+using Quartz;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Jobs;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Models.Configuration;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +21,8 @@ builder.Services
        .AddLogicServices()
        .AddStackExchangeRedisCache(options => options.Configuration = "raspberrypi.local");
 
+builder.Services.AddOptions<FormSettings>().BindConfiguration(nameof(FormSettings));
+
 builder.Services.AddMassTransit(configurator =>
 {
     configurator.UsingRabbitMq((context, factoryConfigurator) =>
@@ -26,6 +31,19 @@ builder.Services.AddMassTransit(configurator =>
         factoryConfigurator.ConfigureEndpoints(context);
     });
 });
+
+builder.Services
+       .AddQuartz(configurator =>
+        {
+            var jobSettings = builder.Configuration.GetSection(nameof(JobSettings)).Get<JobSettings>()
+                           ?? throw new("Unable to read job settings");
+
+            configurator.AddJob<ReadFormJob>(jobConfigurator => jobConfigurator.WithIdentity(nameof(ReadFormJob)).DisallowConcurrentExecution());
+            configurator.AddTrigger(triggerConfigurator => triggerConfigurator.ForJob(nameof(ReadFormJob))
+                                                                              .WithIdentity($"{nameof(ReadFormJob)}-trigger")
+                                                                              .WithCronSchedule(jobSettings.ReadFormJob.CronSchedule));
+        })
+       .AddQuartzHostedService();
 
 var app = builder.Build();
 
