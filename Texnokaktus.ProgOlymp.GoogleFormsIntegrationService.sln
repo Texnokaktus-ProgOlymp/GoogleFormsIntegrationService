@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Googl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options", "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options\Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options.csproj", "{27FAECE9-BC12-4B40-A250-55966F4DE251}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A5B09E4-711E-4EA3-B6DC-38B707CF3BA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Texnokaktus.ProgOlymp.Common.Contracts", "modules\Common.Contracts\Texnokaktus.ProgOlymp.Common.Contracts\Texnokaktus.ProgOlymp.Common.Contracts.csproj", "{41B315CF-6610-4A4D-A024-762BB1E154E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{27FAECE9-BC12-4B40-A250-55966F4DE251}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27FAECE9-BC12-4B40-A250-55966F4DE251}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27FAECE9-BC12-4B40-A250-55966F4DE251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41B315CF-6610-4A4D-A024-762BB1E154E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41B315CF-6610-4A4D-A024-762BB1E154E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41B315CF-6610-4A4D-A024-762BB1E154E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41B315CF-6610-4A4D-A024-762BB1E154E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{41B315CF-6610-4A4D-A024-762BB1E154E5} = {5A5B09E4-711E-4EA3-B6DC-38B707CF3BA3}
 	EndGlobalSection
 EndGlobal

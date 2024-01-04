@@ -1,3 +1,4 @@
+using MassTransit;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options;
@@ -16,6 +17,15 @@ builder.Services
        .AddGoogleClientServices()
        .AddLogicServices()
        .AddStackExchangeRedisCache(options => options.Configuration = "raspberrypi.local");
+
+builder.Services.AddMassTransit(configurator =>
+{
+    configurator.UsingRabbitMq((context, factoryConfigurator) =>
+    {
+        factoryConfigurator.Host(builder.Configuration.GetConnectionString("DefaultRabbitMq"));
+        factoryConfigurator.ConfigureEndpoints(context);
+    });
+});
 
 var app = builder.Build();
 
