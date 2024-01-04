@@ -7,4 +7,5 @@ public record Application
     public required int ContestStageId { get; init; }
     public required DateTime Submitted { get; init; }
     public required string YandexIdLogin { get; init; }
+    public ContestStage ContestStage { get; init; }
 }

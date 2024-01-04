@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Context;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Jobs;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic;
@@ -69,4 +70,11 @@ app.MapControllerRoute(
                        name: "default",
                        pattern: "{controller=Home}/{action=Index}/{id?}");
 
-await app.RunAsync();
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await context.Database.EnsureDeletedAsync();
+    await context.Database.EnsureCreatedAsync();
+}
+
+// await app.RunAsync();

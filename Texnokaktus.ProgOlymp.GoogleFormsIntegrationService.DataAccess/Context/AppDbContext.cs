@@ -14,9 +14,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         {
             builder.HasKey(application => application.Id);
             builder.HasAlternateKey(application => application.ResponseId);
+
             builder.Property(application => application.Submitted)
                    .HasConversion(time => time.ToUniversalTime(),
                                   time => DateTime.SpecifyKind(time, DateTimeKind.Utc));
+
+            builder.HasOne(application => application.ContestStage)
+                   .WithMany()
+                   .HasForeignKey(application => application.ContestStageId);
         });
 
         modelBuilder.Entity<ContestStage>(builder =>
