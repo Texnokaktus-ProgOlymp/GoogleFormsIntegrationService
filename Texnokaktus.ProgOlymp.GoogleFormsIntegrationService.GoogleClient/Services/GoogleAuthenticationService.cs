@@ -8,8 +8,7 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options.Models;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services;
 
-internal class GoogleAuthenticationService(ILogger<GoogleAuthenticationService> logger,
-                                           IOptions<GoogleAppParameters> options) : IGoogleAuthenticationService
+internal class GoogleAuthenticationService(IOptions<GoogleAppParameters> options) : IGoogleAuthenticationService
 {
     private static readonly string Scope = string.Join(' ',
                                                        "https://www.googleapis.com/auth/forms.responses.readonly",

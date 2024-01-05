@@ -4,7 +4,6 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Controllers;
 
 public class GoogleController(LinkGenerator linkGenerator,
-                              ILogger<GoogleController> logger,
                               IGoogleAuthenticationService googleAuthenticationService,
                               ITokenService tokenService) : Controller
 {

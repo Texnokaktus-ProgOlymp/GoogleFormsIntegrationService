@@ -4,7 +4,7 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Models;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Controllers;
 
-public class HomeController(ILogger<HomeController> logger) : Controller
+public class HomeController : Controller
 {
     public IActionResult Index()
     {
