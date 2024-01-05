@@ -23,7 +23,7 @@ internal class ContestStageRepository(AppDbContext context) : IContestStageRepos
                      .Where(stage => stage.FormId != null && stage.IsActive)
                      .ToListAsync();
 
-    public void Add(int id) => context.ContestStages.Add(new() { Id = id, IsActive = false });
+    public void Add(int id, bool isActive) => context.ContestStages.Add(new() { Id = id, IsActive = isActive });
 
     public void Add(ContestStage contestStage) => context.ContestStages.Add(contestStage);
 

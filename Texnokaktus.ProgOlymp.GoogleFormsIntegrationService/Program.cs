@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Serilog;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Consumers;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Context;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
@@ -30,6 +31,8 @@ builder.Services.AddOptions<FormSettings>().BindConfiguration(nameof(FormSetting
 
 builder.Services.AddMassTransit(configurator =>
 {
+    configurator.AddConsumer<ContestStageCreatedConsumer>();
+
     configurator.UsingRabbitMq((context, factoryConfigurator) =>
     {
         factoryConfigurator.Host(builder.Configuration.GetConnectionString("DefaultRabbitMq"));
