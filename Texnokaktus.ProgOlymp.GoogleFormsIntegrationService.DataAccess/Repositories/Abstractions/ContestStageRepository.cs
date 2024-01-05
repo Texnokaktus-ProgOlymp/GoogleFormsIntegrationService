@@ -16,13 +16,13 @@ internal class ContestStageRepository(AppDbContext context) : IContestStageRepos
                      .AsNoTracking()
                      .ToListAsync();
 
-    public async Task<IList<ContestStage>> GetWithFormIdsAsync() =>
+    public async Task<IList<ContestStage>> GetActiveWithFormIdsAsync() =>
         await context.ContestStages
                      .AsNoTracking()
-                     .Where(stage => stage.FormId != null)
+                     .Where(stage => stage.FormId != null && stage.IsActive)
                      .ToListAsync();
 
-    public void Add(int id) => context.ContestStages.Add(new() { Id = id });
+    public void Add(int id) => context.ContestStages.Add(new() { Id = id, IsActive = false });
 
     public void Add(ContestStage contestStage) => context.ContestStages.Add(contestStage);
 
@@ -30,6 +30,13 @@ internal class ContestStageRepository(AppDbContext context) : IContestStageRepos
     {
         var stage = await context.ContestStages.FirstOrDefaultAsync(stage => stage.Id == id) ?? throw new("Not Found"); // TODO Typed exception
         stage.FormId = formId;
+        context.ContestStages.Update(stage);
+    }
+
+    public async Task SetActiveAsync(int id, bool isActive)
+    {
+        var stage = await context.ContestStages.FirstOrDefaultAsync(stage => stage.Id == id) ?? throw new("Not Found"); // TODO Typed exception
+        stage.IsActive = isActive;
         context.ContestStages.Update(stage);
     }
 }
