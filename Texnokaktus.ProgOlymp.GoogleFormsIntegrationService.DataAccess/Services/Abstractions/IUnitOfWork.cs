@@ -4,6 +4,7 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Service
 
 public interface IUnitOfWork
 {
+    IApplicationRepository ApplicationRepository { get; }
     IContestStageRepository ContestStageRepository { get; }
     Task SaveChangesAsync();
 }

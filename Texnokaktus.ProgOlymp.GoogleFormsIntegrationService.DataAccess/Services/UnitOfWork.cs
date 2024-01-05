@@ -5,8 +5,11 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Services.Ab
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Services;
 
 // ReSharper disable once SuggestBaseTypeForParameterInConstructor
-internal class UnitOfWork(AppDbContext context, IContestStageRepository contestStageRepository) : IUnitOfWork
+internal class UnitOfWork(AppDbContext context,
+                          IApplicationRepository applicationRepository,
+                          IContestStageRepository contestStageRepository) : IUnitOfWork
 {
+    public IApplicationRepository ApplicationRepository { get; } = applicationRepository;
     public IContestStageRepository ContestStageRepository { get; } = contestStageRepository;
     public async Task SaveChangesAsync() => await context.SaveChangesAsync();
 }

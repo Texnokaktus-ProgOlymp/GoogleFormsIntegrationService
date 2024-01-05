@@ -13,6 +13,7 @@ public static class DiExtensions
     public static IServiceCollection AddDataAccess(this IServiceCollection services,
                                                    Action<DbContextOptionsBuilder>? optionsAction) =>
         services.AddDbContext<AppDbContext>(optionsAction)
+                .AddScoped<IApplicationRepository, ApplicationRepository>()
                 .AddScoped<IContestStageRepository, ContestStageRepository>()
                 .AddScoped<IUnitOfWork, UnitOfWork>();
 }
