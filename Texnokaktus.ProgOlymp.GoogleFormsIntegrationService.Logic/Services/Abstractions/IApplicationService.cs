@@ -2,8 +2,7 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Models;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abstractions;
 
-public interface IContestStageService
+public interface IApplicationService
 {
-    Task CreateContestStage(int contestStageId);
-    Task<IEnumerable<ContestStageModel>> GetAvailableContestStagesAsync();
+    Task ProcessNewApplicationsAsync(ContestStageModel contestStage);
 }

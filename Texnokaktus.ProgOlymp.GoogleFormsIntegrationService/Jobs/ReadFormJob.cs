@@ -1,15 +1,14 @@
-using Microsoft.Extensions.Options;
 using Quartz;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abstractions;
-using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Models.Configuration;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Jobs;
 
-public class ReadFormJob(IFormsService formsService, IOptions<FormSettings> options, ILogger<ReadFormJob> logger) : IJob
+public class ReadFormJob(IApplicationService applicationService,
+                         IContestStageService contestStageService) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
-        var applications = await formsService.GetParticipantApplicationsAsync(options.Value.FormId);
-        logger.LogInformation("Got applications: {@Applications}", applications);
+        foreach (var stageModel in await contestStageService.GetAvailableContestStagesAsync())
+            await applicationService.ProcessNewApplicationsAsync(stageModel);
     }
 }

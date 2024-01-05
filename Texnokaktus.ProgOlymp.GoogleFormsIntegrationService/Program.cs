@@ -27,8 +27,6 @@ builder.Services
        .AddLogicServices()
        .AddStackExchangeRedisCache(options => options.Configuration = "raspberrypi.local");
 
-builder.Services.AddOptions<FormSettings>().BindConfiguration(nameof(FormSettings));
-
 builder.Services.AddMassTransit(configurator =>
 {
     configurator.AddConsumer<ContestStageCreatedConsumer>();
