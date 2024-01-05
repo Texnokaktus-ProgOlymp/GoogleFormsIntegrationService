@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Context;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Entities;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Repositories.Abstractions;
 
-namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Repositories.Abstractions;
+namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Repositories;
 
 internal class ContestStageRepository(AppDbContext context) : IContestStageRepository
 {
