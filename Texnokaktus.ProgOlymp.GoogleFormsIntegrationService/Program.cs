@@ -1,6 +1,7 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Serilog;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Context;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
@@ -48,6 +49,8 @@ builder.Services
                                                                               .WithCronSchedule(jobSettings.ReadFormJob.CronSchedule));
         })
        .AddQuartzHostedService();
+
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
 
