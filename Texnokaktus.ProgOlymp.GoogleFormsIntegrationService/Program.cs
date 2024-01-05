@@ -70,11 +70,4 @@ app.MapControllerRoute(
                        name: "default",
                        pattern: "{controller=Home}/{action=Index}/{id?}");
 
-await using (var scope = app.Services.CreateAsyncScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await context.Database.EnsureDeletedAsync();
-    await context.Database.EnsureCreatedAsync();
-}
-
-// await app.RunAsync();
+await app.RunAsync();
