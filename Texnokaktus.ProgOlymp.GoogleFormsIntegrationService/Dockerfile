@@ -13,14 +13,14 @@ COPY ["Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient/Texnokak
 COPY ["Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options/Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options.csproj", "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options/"]
 COPY ["modules/Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts.csproj", "modules/Common.Contracts/Texnokaktus.ProgOlymp.Common.Contracts/"]
 COPY ["Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess/Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.csproj", "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess/"]
-RUN dotnet restore "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService/Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj"  -a $TARGETARCH
+RUN dotnet restore "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService/Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj"
 COPY . .
 WORKDIR "/src/Texnokaktus.ProgOlymp.GoogleFormsIntegrationService"
-RUN dotnet build "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -c $BUILD_CONFIGURATION -o /app/build  -a $TARGETARCH
+RUN dotnet build "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -c $BUILD_CONFIGURATION -o /app/publish  -a $TARGETARCH /p:UseAppHost=false
+RUN dotnet publish "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
