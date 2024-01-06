@@ -16,11 +16,11 @@ COPY ["Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess/Texnokaktu
 RUN dotnet restore "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService/Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj"
 COPY . .
 WORKDIR "/src/Texnokaktus.ProgOlymp.GoogleFormsIntegrationService"
-RUN dotnet build "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
