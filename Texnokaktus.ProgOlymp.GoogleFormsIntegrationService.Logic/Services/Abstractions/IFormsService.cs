@@ -4,5 +4,5 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abs
 
 public interface IFormsService
 {
-    Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(string formId);
+    Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(ContestStageModel contestStage);
 }

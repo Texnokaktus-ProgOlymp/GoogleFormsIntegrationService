@@ -2,14 +2,15 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Models;
 
 public record ParticipantApplication(string Id,
                                      DateTime CreateTime,
-                                     DateTime LastSubmittedTime)
+                                     DateTime LastSubmittedTime,
+                                     int ContestStageId)
 {
     public required string ContestLocation { get; init; }
     public required string YandexIdLogin { get; init; }
     public required string ParticipantName { get; init; }
     public required DateOnly BirthDate { get; init; }
     public required string ParticipantGrade { get; init; }
-    public required string? ParticipantEmail { get; init; }
+    public required string ParticipantEmail { get; init; }
     public required string School { get; init; }
     public required string SchoolRegion { get; init; }
     public required string ParentName { get; init; }

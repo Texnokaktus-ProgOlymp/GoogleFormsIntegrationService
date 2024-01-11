@@ -7,13 +7,14 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services;
 
 internal class FormsService(IGoogleFormsService formsService) : IFormsService
 {
-    public async Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(string formId)
+    public async Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(ContestStageModel contestStage)
     {
-        var responsesModel = await formsService.GetResponses(formId);
+        var responsesModel = await formsService.GetResponses(contestStage.FormId);
 
         return responsesModel.Responses.Select(response => new ParticipantApplication(response.ResponseId,
                                                         response.CreateTime,
-                                                        response.LastSubmittedTime)
+                                                        response.LastSubmittedTime,
+                                                        contestStage.Id)
                                                {
                                                    ContestLocation = response.Answers.GetString("4faf6956")
                                                                   ?? throw new($"No value for {nameof(ParticipantApplication.ContestLocation)}"),
@@ -25,7 +26,8 @@ internal class FormsService(IGoogleFormsService formsService) : IFormsService
                                                             ?? throw new($"No value for {nameof(ParticipantApplication.BirthDate)}"),
                                                    ParticipantGrade = response.Answers.GetString("7bf9a8f4")
                                                                    ?? throw new($"No value for {nameof(ParticipantApplication.ParticipantGrade)}"),
-                                                   ParticipantEmail = response.Answers.GetString("0bfc42b7"),
+                                                   ParticipantEmail = response.Answers.GetString("0bfc42b7")
+                                                                   ?? throw new($"No value for {nameof(ParticipantApplication.ParticipantEmail)}"),
                                                    School = response.Answers.GetString("51c46109")
                                                          ?? throw new($"No value for {nameof(ParticipantApplication.School)}"),
                                                    SchoolRegion = response.Answers.GetString("11b6a547")

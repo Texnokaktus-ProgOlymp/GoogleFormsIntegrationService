@@ -10,6 +10,7 @@ internal class MessageService(IPublishEndpoint bus) : IMessageService
     {
         var message = new Texnokaktus.ProgOlymp.Common.Contracts.Messages.GoogleForms.ParticipantApplication
         {
+            ContestStageId = application.ContestStageId,
             SubmittedTime = application.CreateTime,
             ContestLocation = application.ContestLocation,
             YandexIdLogin = application.YandexIdLogin,

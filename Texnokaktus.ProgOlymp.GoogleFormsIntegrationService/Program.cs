@@ -4,7 +4,6 @@ using Quartz;
 using Serilog;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Consumers;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess;
-using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Context;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Jobs;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic;
