@@ -16,9 +16,7 @@ public static class DiExtensions
                 .AddScoped<IAuthenticator>(provider =>
                  {
                      var tokenService = provider.GetRequiredService<ITokenService>();
-                     var accessToken = tokenService.GetAccessTokenAsync()
-                                                   .GetAwaiter()
-                                                   .GetResult()
+                     var accessToken = tokenService.GetAccessToken()
                                     ?? throw new("No token");
                      return new JwtAuthenticator(accessToken);
                  })

@@ -23,6 +23,19 @@ internal class TokenService(IDistributedCache cache,
             await cache.SetStringAsync(RefreshTokenKey, tokenResponse.RefreshToken);
     }
 
+    private void RegisterToken(TokenResponse tokenResponse)
+    {
+        cache.SetString(AccessTokenKey,
+                        tokenResponse.AccessToken,
+                        new()
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(tokenResponse.ExpiresIn)
+                        });
+
+        if (tokenResponse.RefreshToken is not null)
+            cache.SetString(RefreshTokenKey, tokenResponse.RefreshToken);
+    }
+
     public async Task<string?> GetAccessTokenAsync()
     {
         var accessToken = await cache.GetStringAsync(AccessTokenKey);
@@ -34,6 +47,20 @@ internal class TokenService(IDistributedCache cache,
         var response = await googleAuthenticationService.RefreshAccessTokenAsync(refreshToken);
 
         await RegisterTokenAsync(response);
+        return response.AccessToken;
+    }
+
+    public string? GetAccessToken()
+    {
+        var accessToken = cache.GetString(AccessTokenKey);
+        if (accessToken is not null) return accessToken;
+
+        var refreshToken = cache.GetString(RefreshTokenKey);
+        if (refreshToken is null) return null;
+
+        var response = googleAuthenticationService.RefreshAccessTokenAsync(refreshToken).GetAwaiter().GetResult();
+
+        RegisterToken(response);
         return response.AccessToken;
     }
 
