@@ -12,6 +12,7 @@ public static class DiExtensions
         services.AddScoped<IGoogleAuthenticationService, GoogleAuthenticationService>()
                 .AddScoped<ITokenService, TokenService>()
                 .AddScoped<IGoogleFormsService, GoogleFormsService>()
+                .AddScoped<IGoogleSheetsService, GoogleSheetsService>()
                 .AddScoped<IAuthenticator>(provider =>
                  {
                      var tokenService = provider.GetRequiredService<ITokenService>();
@@ -21,10 +22,17 @@ public static class DiExtensions
                                     ?? throw new("No token");
                      return new JwtAuthenticator(accessToken);
                  })
-                .AddScoped<IRestClient>(provider =>
+                .AddKeyedScoped<IRestClient>("OAuth2", (_, _) => new RestClient("https://oauth2.googleapis.com"))
+                .AddKeyedScoped<IRestClient>("Forms", (provider, _) =>
                  {
                      var authenticator = provider.GetRequiredService<IAuthenticator>();
                      return new RestClient("https://forms.googleapis.com",
+                                           options => options.Authenticator = authenticator);
+                 })
+                .AddKeyedScoped<IRestClient>("Sheets", (provider, _) =>
+                 {
+                     var authenticator = provider.GetRequiredService<IAuthenticator>();
+                     return new RestClient("https://sheets.googleapis.com",
                                            options => options.Authenticator = authenticator);
                  });
 }

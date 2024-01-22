@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RestSharp;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Exceptions;
@@ -8,11 +8,14 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options.Models;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services;
 
-internal class GoogleAuthenticationService(IOptions<GoogleAppParameters> options) : IGoogleAuthenticationService
+internal class GoogleAuthenticationService(IOptions<GoogleAppParameters> options,
+                                           [FromKeyedServices("OAuth2")] IRestClient oauthClient)
+    : IGoogleAuthenticationService
 {
     private static readonly string Scope = string.Join(' ',
                                                        "https://www.googleapis.com/auth/forms.responses.readonly",
-                                                       "https://www.googleapis.com/auth/forms.body.readonly");
+                                                       "https://www.googleapis.com/auth/forms.body.readonly",
+                                                       "https://www.googleapis.com/auth/spreadsheets");
 
     public string GetGoogleOAuthUrl(string localRedirectUri)
     {
@@ -28,14 +31,13 @@ internal class GoogleAuthenticationService(IOptions<GoogleAppParameters> options
 
     public async Task<TokenResponse> GetAccessTokenAsync(string code, string localRedirectUrl)
     {
-        using var client = new RestClient("https://oauth2.googleapis.com");
         var request = new RestRequest("token").AddParameter("client_id", options.Value.ClientId)
                                               .AddParameter("client_secret", options.Value.ClientSecret)
                                               .AddParameter("code", code)
                                               .AddParameter("grant_type", "authorization_code")
                                               .AddParameter("redirect_uri", localRedirectUrl);
 
-        var response = await client.ExecutePostAsync<TokenResponse>(request);
+        var response = await oauthClient.ExecutePostAsync<TokenResponse>(request);
         
         if (!response.IsSuccessful)
         {
@@ -52,13 +54,12 @@ internal class GoogleAuthenticationService(IOptions<GoogleAppParameters> options
 
     public async Task<TokenResponse> RefreshAccessTokenAsync(string refreshToken)
     {
-        using var client = new RestClient("https://oauth2.googleapis.com");
         var request = new RestRequest("token").AddParameter("client_id", options.Value.ClientId)
                                               .AddParameter("client_secret", options.Value.ClientSecret)
                                               .AddParameter("grant_type", "refresh_token")
                                               .AddParameter("refresh_token", refreshToken);
 
-        var response = await client.ExecutePostAsync<TokenResponse>(request);
+        var response = await oauthClient.ExecutePostAsync<TokenResponse>(request);
 
         if (!response.IsSuccessful)
         {
@@ -75,10 +76,9 @@ internal class GoogleAuthenticationService(IOptions<GoogleAppParameters> options
 
     public async Task<TokenResponse> RevokeTokenAsync(string accessToken)
     {
-        using var client = new RestClient("https://oauth2.googleapis.com");
         var request = new RestRequest("revoke").AddParameter("token", accessToken);
 
-        var response = await client.ExecutePostAsync<TokenResponse>(request);
+        var response = await oauthClient.ExecutePostAsync<TokenResponse>(request);
 
         if (!response.IsSuccessful)
         {

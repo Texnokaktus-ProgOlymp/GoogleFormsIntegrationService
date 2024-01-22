@@ -1,10 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using RestSharp;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Models;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.Abstractions;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services;
 
-internal class GoogleFormsService(IRestClient client) : IGoogleFormsService
+internal class GoogleFormsService([FromKeyedServices("Forms")] IRestClient client) : IGoogleFormsService
 {
     public async Task<FormResponsesModel> GetResponses(string formId)
     {
