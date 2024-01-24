@@ -4,5 +4,6 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Servi
 
 public interface IGoogleSheetsService
 {
-    Task<ValueRange> GetRange(string sheetId, string range);
+    Task<ValueRange> GetRangeAsync(string sheetId, string range);
+    Task UpdateRangeAsync(string sheetId, ValueRange range);
 }

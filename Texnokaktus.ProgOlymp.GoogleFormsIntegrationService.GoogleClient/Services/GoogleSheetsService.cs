@@ -1,29 +1,37 @@
-using Microsoft.Extensions.DependencyInjection;
-using RestSharp;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Models;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.Abstractions;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services;
 
-internal class GoogleSheetsService([FromKeyedServices("Forms")] IRestClient client) : IGoogleSheetsService
+internal class GoogleSheetsService(IGoogleServiceAsyncFactory googleServiceFactory) : IGoogleSheetsService
 {
-    public async Task<ValueRange> GetRange(string sheetId, string range)
+    public async Task<ValueRange> GetRangeAsync(string sheetId, string range)
     {
-        var request = new RestRequest("v4/spreadsheets/{formId}/values/{range}").AddUrlSegment("formId", sheetId)
-                                                                                .AddUrlSegment("range", range);
-
-        var response = await client.ExecuteGetAsync<ValueRange>(request);
-
-        if (!response.IsSuccessful)
+        var sheetsService = await googleServiceFactory.GetSheetsServiceAsync();
+        var valueRange = await sheetsService.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
+        return new()
         {
-            if (response.ErrorException is not null)
-                throw new("An error occurred while requesting the sheet range", response.ErrorException);
-            throw new("An error occurred while requesting the sheet range");
-        }
+            Range = valueRange.Range,
+            MajorDimension = valueRange.MajorDimension,
+            Values = valueRange.Values
+                               .Select(list => list.Select(o => o as string ?? o.ToString() ?? string.Empty)
+                                                   .ToArray())
+                               .ToArray()
+        };
+    }
 
-        if (response.Data is null)
-            throw new("Invalid data from server");
-
-        return response.Data;
+    public async Task UpdateRangeAsync(string sheetId, ValueRange range)
+    {
+        var sheetsService = await googleServiceFactory.GetSheetsServiceAsync();
+        var valueRange = new Google.Apis.Sheets.v4.Data.ValueRange
+        {
+            Range = range.Range,
+            MajorDimension = range.MajorDimension,
+            Values = range.Values
+                          .Select(strings => strings.Select(s => (object)s)
+                                                    .ToArray() as IList<object>)
+                          .ToList()
+        };
+        await sheetsService.Spreadsheets.Values.Update(valueRange, sheetId, range.Range).ExecuteAsync();
     }
 }
