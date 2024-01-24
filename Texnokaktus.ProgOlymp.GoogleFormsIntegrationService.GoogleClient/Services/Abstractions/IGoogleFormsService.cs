@@ -4,5 +4,6 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Servi
 
 public interface IGoogleFormsService
 {
-    Task<FormResponsesModel> GetResponses(string formId);
+    Task<FormResponse> GetResponseAsync(string formId, string responseId);
+    Task<FormResponsesModel> GetResponsesAsync(string formId);
 }

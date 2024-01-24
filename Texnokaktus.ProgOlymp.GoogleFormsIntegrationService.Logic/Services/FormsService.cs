@@ -9,7 +9,7 @@ internal class FormsService(IGoogleFormsService formsService) : IFormsService
 {
     public async Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(ContestStageModel contestStage)
     {
-        var responsesModel = await formsService.GetResponses(contestStage.FormId);
+        var responsesModel = await formsService.GetResponsesAsync(contestStage.FormId);
 
         return responsesModel.Responses.Select(response => new ParticipantApplication(response.ResponseId,
                                                         response.CreateTime,
