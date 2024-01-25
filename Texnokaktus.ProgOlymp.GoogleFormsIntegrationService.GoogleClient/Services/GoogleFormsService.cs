@@ -7,14 +7,14 @@ internal class GoogleFormsService(IGoogleServiceAsyncFactory googleServiceFactor
 {
     public async Task<FormResponse> GetResponseAsync(string formId, string responseId)
     {
-        var formsService = await googleServiceFactory.GetFormsServiceAsync();
+        using var formsService = await googleServiceFactory.GetFormsServiceAsync();
         var response = await formsService.Forms.Responses.Get(formId, responseId).ExecuteAsync();
         return response.MapFormResponse();
     }
 
     public async Task<FormResponsesModel> GetResponsesAsync(string formId)
     {
-        var formsService = await googleServiceFactory.GetFormsServiceAsync();
+        using var formsService = await googleServiceFactory.GetFormsServiceAsync();
         var response = await formsService.Forms.Responses.List(formId).ExecuteAsync();
 
         return new(from formResponse in response.Responses

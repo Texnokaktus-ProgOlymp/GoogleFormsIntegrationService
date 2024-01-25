@@ -7,7 +7,7 @@ internal class GoogleSheetsService(IGoogleServiceAsyncFactory googleServiceFacto
 {
     public async Task<ValueRange> GetRangeAsync(string sheetId, string range)
     {
-        var sheetsService = await googleServiceFactory.GetSheetsServiceAsync();
+        using var sheetsService = await googleServiceFactory.GetSheetsServiceAsync();
         var valueRange = await sheetsService.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
         return new()
         {
@@ -22,7 +22,7 @@ internal class GoogleSheetsService(IGoogleServiceAsyncFactory googleServiceFacto
 
     public async Task UpdateRangeAsync(string sheetId, ValueRange range)
     {
-        var sheetsService = await googleServiceFactory.GetSheetsServiceAsync();
+        using var sheetsService = await googleServiceFactory.GetSheetsServiceAsync();
         var valueRange = new Google.Apis.Sheets.v4.Data.ValueRange
         {
             Range = range.Range,
