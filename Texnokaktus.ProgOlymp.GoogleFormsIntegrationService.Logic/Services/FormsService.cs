@@ -16,26 +16,26 @@ internal class FormsService(IGoogleFormsService formsService) : IFormsService
                                                         response.LastSubmittedTime,
                                                         contestStage.Id)
                                                {
-                                                   ContestLocation = response.Answers.GetString("4faf6956")
-                                                                  ?? throw new($"No value for {nameof(ParticipantApplication.ContestLocation)}"),
-                                                   YandexIdLogin = response.Answers.GetString("2a4f01be")
-                                                                ?? throw new($"No value for {nameof(ParticipantApplication.YandexIdLogin)}"),
+                                                   AgeCategory = response.Answers.GetString("5250abc7")
+                                                                  ?? throw new($"No value for {nameof(ParticipantApplication.AgeCategory)}"),
                                                    ParticipantName = response.Answers.GetString("6150340d")
                                                                   ?? throw new($"No value for {nameof(ParticipantApplication.ParticipantName)}"),
                                                    BirthDate = response.Answers.GetDate("3027c6cf")
                                                             ?? throw new($"No value for {nameof(ParticipantApplication.BirthDate)}"),
+                                                   ParticipantSnils = response.Answers.GetString("30d1af50")
+                                                            ?? throw new($"No value for {nameof(ParticipantApplication.ParticipantSnils)}"),
                                                    ParticipantGrade = response.Answers.GetString("7bf9a8f4")
                                                                    ?? throw new($"No value for {nameof(ParticipantApplication.ParticipantGrade)}"),
                                                    ParticipantEmail = response.Answers.GetString("0bfc42b7")
                                                                    ?? throw new($"No value for {nameof(ParticipantApplication.ParticipantEmail)}"),
+                                                   ParticipantEmailConfirm = response.Answers.GetBool("6fc73014"),
                                                    School = response.Answers.GetString("51c46109")
                                                          ?? throw new($"No value for {nameof(ParticipantApplication.School)}"),
                                                    SchoolRegion = response.Answers.GetString("11b6a547")
                                                                ?? throw new($"No value for {nameof(ParticipantApplication.SchoolRegion)}"),
                                                    ParentName = response.Answers.GetString("00331f45")
                                                              ?? throw new($"No value for {nameof(ParticipantApplication.ParentName)}"),
-                                                   ParentEmail = response.Answers.GetString("4459e89b")
-                                                              ?? throw new($"No value for {nameof(ParticipantApplication.ParentEmail)}"),
+                                                   ParentEmail = response.Answers.GetString("4459e89b"),
                                                    ParentPhone = response.Answers.GetString("43112d1d"),
                                                    PersonalDataConsent = response.Answers.GetBool("72de3724"),
                                                    TeacherName = response.Answers.GetString("2ccafef8"),
