@@ -2,7 +2,7 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Models;
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abstractions;
 
-public interface IFormsService
+public interface IApplicationDataService
 {
     Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(ContestStageModel contestStage);
 }

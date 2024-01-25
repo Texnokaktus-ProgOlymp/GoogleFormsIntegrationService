@@ -5,7 +5,7 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abstrac
 
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services;
 
-internal class FormsService(IGoogleFormsService formsService) : IFormsService
+internal class FormsApplicationDataService(IGoogleFormsService formsService) : IApplicationDataService
 {
     public async Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(ContestStageModel contestStage)
     {

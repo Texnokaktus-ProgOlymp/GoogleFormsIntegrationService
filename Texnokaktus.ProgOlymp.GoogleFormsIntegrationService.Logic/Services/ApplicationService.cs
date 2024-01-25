@@ -8,7 +8,7 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abstrac
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services;
 
 internal class ApplicationService(IApplicationRepository applicationRepository,
-                                  IFormsService formsService,
+                                  IApplicationDataService applicationDataService,
                                   ILogger<ApplicationService> logger,
                                   IMessageService messageService,
                                   IUnitOfWork unitOfWork) : IApplicationService
@@ -36,7 +36,7 @@ internal class ApplicationService(IApplicationRepository applicationRepository,
 
     private async Task<IEnumerable<ParticipantApplication>> GetNewApplicationsAsync(ContestStageModel contestStage)
     {
-        var applications = await formsService.GetParticipantApplicationsAsync(contestStage);
+        var applications = await applicationDataService.GetParticipantApplicationsAsync(contestStage);
         var responseIds = await applicationRepository.GetResponseIds(contestStage.Id);
         return applications.Where(application => !responseIds.Contains(application.Id));
     }
