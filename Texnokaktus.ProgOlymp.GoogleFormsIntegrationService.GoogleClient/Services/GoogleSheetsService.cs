@@ -13,10 +13,11 @@ internal class GoogleSheetsService(IGoogleServiceAsyncFactory googleServiceFacto
         {
             Range = valueRange.Range,
             MajorDimension = valueRange.MajorDimension,
-            Values = valueRange.Values
-                               .Select(list => list.Select(o => o as string ?? o.ToString() ?? string.Empty)
-                                                   .ToArray())
-                               .ToArray()
+            Values = valueRange.Values is { } values
+                         ? values.Select(list => list.Select(o => o as string ?? o.ToString() ?? string.Empty)
+                                                     .ToArray())
+                                 .ToArray()
+                         : Array.Empty<string[]>()
         };
     }
 

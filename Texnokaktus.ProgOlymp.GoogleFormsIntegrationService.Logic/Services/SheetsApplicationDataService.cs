@@ -14,12 +14,14 @@ internal class SheetsApplicationDataService(IGoogleSheetsService sheetsService,
 
     public async Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(ContestStageModel contestStage)
     {
-        var valueRange = await sheetsService.GetRangeAsync(contestStage.FormId, $"C1R{contestStage.LastRowIndex}:C{ColumnCount}R{BatchSize}");
+        var startRowIndex = contestStage.LastRowIndex + 1;
+
+        var valueRange = await sheetsService.GetRangeAsync(contestStage.FormId, $"R{startRowIndex}C1:R{startRowIndex + BatchSize}C{ColumnCount}");
 
         if (valueRange.Values.Length == 0)
             return Enumerable.Empty<ParticipantApplication>();
 
-        var tuples = valueRange.Values.Zip(Enumerable.Range(contestStage.LastRowIndex, valueRange.Values.Length)).ToArray();
+        var tuples = valueRange.Values.Zip(Enumerable.Range(startRowIndex, valueRange.Values.Length)).ToArray();
 
         await unitOfWork.ContestStageRepository.SetLastRowIndex(contestStage.Id, tuples.Max(tuple => tuple.Second));
         await unitOfWork.SaveChangesAsync();
