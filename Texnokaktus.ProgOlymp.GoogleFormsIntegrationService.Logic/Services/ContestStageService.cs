@@ -15,6 +15,6 @@ internal class ContestStageService(IUnitOfWork unitOfWork) : IContestStageServic
     public async Task<IEnumerable<ContestStageModel>> GetAvailableContestStagesAsync()
     {
         var stages = await unitOfWork.ContestStageRepository.GetActiveWithFormIdsAsync();
-        return stages.Select(stage => new ContestStageModel(stage.Id, stage.FormId!));
+        return stages.Select(stage => new ContestStageModel(stage.Id, stage.SheetId!, stage.LastRowIndex));
     }
 }

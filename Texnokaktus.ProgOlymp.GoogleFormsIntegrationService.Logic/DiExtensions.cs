@@ -9,6 +9,6 @@ public static class DiExtensions
     public static IServiceCollection AddLogicServices(this IServiceCollection services) =>
         services.AddScoped<IApplicationService, ApplicationService>()
                 .AddScoped<IContestStageService, ContestStageService>()
-                .AddScoped<IApplicationDataService, FormsApplicationDataService>()
+                .AddScoped<IApplicationDataService, SheetsApplicationDataService>()
                 .AddScoped<IMessageService, MessageService>();
 }

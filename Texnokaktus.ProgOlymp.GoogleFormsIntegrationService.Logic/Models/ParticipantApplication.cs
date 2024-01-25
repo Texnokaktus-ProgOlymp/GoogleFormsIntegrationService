@@ -1,6 +1,6 @@
 namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Models;
 
-public record ParticipantApplication(string Id,
+public record ParticipantApplication(int RowIndex,
                                      DateTime CreateTime,
                                      DateTime LastSubmittedTime,
                                      int ContestStageId)
@@ -9,7 +9,7 @@ public record ParticipantApplication(string Id,
     public required string ParticipantName { get; init; }
     public required DateOnly BirthDate { get; init; }
     // public required string ContestLocation { get; init; }
-    public required string ParticipantSnils { get; set; }
+    public required string ParticipantSnils { get; init; }
     public required string ParticipantGrade { get; init; }
     public required string ParticipantEmail { get; init; }
     public required bool ParticipantEmailConfirm { get; init; }

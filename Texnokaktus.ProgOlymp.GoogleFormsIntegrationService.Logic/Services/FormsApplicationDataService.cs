@@ -11,7 +11,7 @@ internal class FormsApplicationDataService(IGoogleFormsService formsService) : I
     {
         var responsesModel = await formsService.GetResponsesAsync(contestStage.FormId);
 
-        return responsesModel.Responses.Select(response => new ParticipantApplication(response.ResponseId,
+        return responsesModel.Responses.Select(response => new ParticipantApplication(0,
                                                         response.CreateTime,
                                                         response.LastSubmittedTime,
                                                         contestStage.Id)

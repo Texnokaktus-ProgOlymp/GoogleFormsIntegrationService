@@ -8,13 +8,6 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Reposit
 
 internal class ApplicationRepository(AppDbContext context) : IApplicationRepository
 {
-    public async Task<ISet<string>> GetResponseIds(int contestStageId) =>
-        await context.Applications
-                     .AsNoTracking()
-                     .Where(application => application.ContestStageId == contestStageId)
-                     .Select(application => application.ResponseId)
-                     .ToHashSetAsync();
-
     public async Task<IList<Application>> GetApplications(int contestStageId) =>
         await context.Applications
                      .AsNoTracking()
@@ -25,7 +18,7 @@ internal class ApplicationRepository(AppDbContext context) : IApplicationReposit
     {
         var application = new Application
         {
-            ResponseId = model.ResponseId,
+            RowIndex = model.RowIndex,
             ContestStageId = model.ContestStageId,
             Submitted = model.Submitted,
             ParticipantEmail = model.ParticipantEmail

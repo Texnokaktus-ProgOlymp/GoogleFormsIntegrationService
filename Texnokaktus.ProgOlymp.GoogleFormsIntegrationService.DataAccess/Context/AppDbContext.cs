@@ -13,7 +13,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         modelBuilder.Entity<Application>(builder =>
         {
             builder.HasKey(application => application.Id);
-            builder.HasAlternateKey(application => application.ResponseId);
+            builder.HasAlternateKey(application => application.RowIndex);
 
             builder.Property(application => application.Submitted)
                    .HasConversion(time => time.ToUniversalTime(),
@@ -22,6 +22,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             builder.HasOne(application => application.ContestStage)
                    .WithMany()
                    .HasForeignKey(application => application.ContestStageId);
+
+            builder.ToTable(tableBuilder =>
+            {
+                tableBuilder.HasCheckConstraint("CK_Applications_RowIndex", $"[{nameof(Application.RowIndex)}] > 1");
+            });
         });
 
         modelBuilder.Entity<ContestStage>(builder =>
@@ -29,8 +34,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             builder.HasKey(stage => stage.Id);
             builder.Property(stage => stage.Id).ValueGeneratedNever();
 
-            builder.HasIndex(stage => stage.FormId)
-                   .HasFilter($"[{nameof(ContestStage.FormId)}] IS NOT NULL")
+            builder.HasIndex(stage => stage.SheetId)
+                   .HasFilter($"[{nameof(ContestStage.SheetId)}] IS NOT NULL")
                    .IsUnique();
         });
 
