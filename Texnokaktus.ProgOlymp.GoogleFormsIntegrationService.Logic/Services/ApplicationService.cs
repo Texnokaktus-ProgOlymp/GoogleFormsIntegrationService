@@ -22,7 +22,7 @@ internal class ApplicationService(IApplicationRepository applicationRepository,
             var model = new ApplicationInsertModel(contestStage.Id,
                                                    application.Id,
                                                    application.CreateTime,
-                                                   application.YandexIdLogin);
+                                                   application.ParticipantEmail);
             unitOfWork.ApplicationRepository.AddApplication(model);
             processedCount++;
         }

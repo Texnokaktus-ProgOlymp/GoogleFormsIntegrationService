@@ -28,7 +28,7 @@ internal class ApplicationRepository(AppDbContext context) : IApplicationReposit
             ResponseId = model.ResponseId,
             ContestStageId = model.ContestStageId,
             Submitted = model.Submitted,
-            YandexIdLogin = model.YandexIdLogin
+            ParticipantEmail = model.ParticipantEmail
         };
 
         context.Applications.Add(application);
