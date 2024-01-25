@@ -6,6 +6,5 @@ public interface ITokenService
 {
     Task RegisterTokenAsync(TokenResponse tokenResponse);
     Task<string?> GetAccessTokenAsync();
-    string? GetAccessToken();
     Task RevokeTokenAsync();
 }

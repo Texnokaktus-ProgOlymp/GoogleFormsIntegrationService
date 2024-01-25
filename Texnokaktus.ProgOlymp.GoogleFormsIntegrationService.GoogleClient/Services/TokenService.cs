@@ -50,20 +50,6 @@ internal class TokenService(IDistributedCache cache,
         return response.AccessToken;
     }
 
-    public string? GetAccessToken()
-    {
-        var accessToken = cache.GetString(AccessTokenKey);
-        if (accessToken is not null) return accessToken;
-
-        var refreshToken = cache.GetString(RefreshTokenKey);
-        if (refreshToken is null) return null;
-
-        var response = googleAuthenticationService.RefreshAccessTokenAsync(refreshToken).GetAwaiter().GetResult();
-
-        RegisterToken(response);
-        return response.AccessToken;
-    }
-
     public async Task RevokeTokenAsync()
     {
         var accessToken = await GetAccessTokenAsync() ?? throw new();
