@@ -48,7 +48,7 @@ internal class SheetsApplicationDataService(IGoogleSheetsService sheetsService,
         var valueRange = new ValueRange
         {
             MajorDimension = "ROWS",
-            Range = $"R{rowIndex}C{ColumnCount}:R{rowIndex}C{ColumnCount + 1}",
+            Range = $"R{rowIndex}C{ColumnCount + 1}:R{rowIndex}C{ColumnCount + 2}",
             Values =
             [
                 [

@@ -1,3 +1,4 @@
+using Google.Apis.Sheets.v4;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Models;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.Abstractions;
 
@@ -33,6 +34,8 @@ internal class GoogleSheetsService(IGoogleServiceAsyncFactory googleServiceFacto
                                                     .ToArray() as IList<object>)
                           .ToList()
         };
-        await sheetsService.Spreadsheets.Values.Update(valueRange, sheetId, range.Range).ExecuteAsync();
+        var updateRequest = sheetsService.Spreadsheets.Values.Update(valueRange, sheetId, range.Range);
+        updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+        await updateRequest.ExecuteAsync();
     }
 }
