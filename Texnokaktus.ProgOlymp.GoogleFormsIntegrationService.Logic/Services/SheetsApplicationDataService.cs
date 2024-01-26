@@ -35,21 +35,10 @@ internal class SheetsApplicationDataService(IGoogleSheetsService sheetsService,
                {
                    AgeCategory = row.GetString(1) ?? throw new NoValueException(nameof(ParticipantApplication.AgeCategory)),
                    ParticipantName = row.GetString(2) ?? throw new NoValueException(nameof(ParticipantApplication.ParticipantName)),
-                   BirthDate = row.GetDate(3) ?? throw new NoValueException(nameof(ParticipantApplication.BirthDate)),
-                   ParticipantSnils = row.GetString(4) ?? throw new NoValueException(nameof(ParticipantApplication.ParticipantSnils)),
                    ParticipantGrade = row.GetString(5) ?? throw new NoValueException(nameof(ParticipantApplication.ParticipantGrade)),
                    ParticipantEmail = row.GetString(6) ?? throw new NoValueException(nameof(ParticipantApplication.ParticipantEmail)),
-                   ParticipantEmailConfirm = row.GetBool(7),
                    School = row.GetString(8) ?? throw new NoValueException(nameof(ParticipantApplication.School)),
                    SchoolRegion = row.GetString(9) ?? throw new NoValueException(nameof(ParticipantApplication.SchoolRegion)),
-                   ParentName = row.GetString(10) ?? throw new NoValueException(nameof(ParticipantApplication.ParentName)),
-                   ParentEmail = row.GetString(11) ?? throw new NoValueException(nameof(ParticipantApplication.ParentEmail)),
-                   ParentPhone = row.GetString(12) ?? throw new NoValueException(nameof(ParticipantApplication.ParentPhone)),
-                   PersonalDataConsent = row.GetBool(13),
-                   TeacherName = row.GetString(14),
-                   TeacherSchool = row.GetString(15),
-                   TeacherEmail = row.GetString(16),
-                   TeacherPhone = row.GetString(17)
                };
     }
 }
@@ -61,15 +50,8 @@ file static class RowExtensions
             ? row[index]
             : null;
 
-    public static bool GetBool(this IReadOnlyList<string> row, int index) => row.GetString(index) is not null;
-
     public static DateTime? GetDateTime(this IReadOnlyList<string> row, int index) =>
         row.GetString(index) is { } str && DateTime.TryParse(str, out var dateTime)
             ? DateTime.SpecifyKind(dateTime, DateTimeKind.Local)
-            : null;
-
-    public static DateOnly? GetDate(this IReadOnlyList<string> row, int index) =>
-        row.GetString(index) is { } str && DateOnly.TryParse(str, out var date)
-            ? date
             : null;
 }

@@ -15,21 +15,10 @@ internal class MessageService(IPublishEndpoint bus) : IMessageService
             SubmittedTime = application.CreateTime,
             AgeCategory = application.AgeCategory,
             ParticipantName = application.ParticipantName,
-            BirthDate = application.BirthDate,
-            ParticipantSnils = application.ParticipantSnils,
             ParticipantGrade = application.ParticipantGrade,
             ParticipantEmail = application.ParticipantEmail,
-            ParticipantEmailConfirm = application.ParticipantEmailConfirm,
             School = application.School,
             SchoolRegion = application.SchoolRegion,
-            ParentName = application.ParentName,
-            ParentEmail = application.ParentEmail,
-            ParentPhone = application.ParentPhone,
-            PersonalDataConsent = application.PersonalDataConsent,
-            TeacherName = application.TeacherName,
-            TeacherSchool = application.TeacherSchool,
-            TeacherEmail = application.TeacherEmail,
-            TeacherPhone = application.TeacherPhone
         };
         await bus.Publish(message);
     }
