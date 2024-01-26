@@ -14,7 +14,7 @@ internal class ApplicationRepository(AppDbContext context) : IApplicationReposit
                      .Where(application => application.ContestStageId == contestStageId)
                      .ToListAsync();
 
-    public void AddApplication(ApplicationInsertModel model)
+    public Application AddApplication(ApplicationInsertModel model)
     {
         var application = new Application
         {
@@ -24,8 +24,8 @@ internal class ApplicationRepository(AppDbContext context) : IApplicationReposit
             ParticipantEmail = model.ParticipantEmail
         };
 
-        context.Applications.Add(application);
-        context.Applications.AddRange();
+        var entry = context.Applications.Add(application);
+        return entry.Entity;
     }
 }
 

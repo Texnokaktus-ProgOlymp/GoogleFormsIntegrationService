@@ -6,10 +6,11 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services;
 
 internal class MessageService(IPublishEndpoint bus) : IMessageService
 {
-    public async Task SendParticipantApplicationAsync(ParticipantApplication application)
+    public async Task SendParticipantApplicationAsync(int applicationId, ParticipantApplication application)
     {
         var message = new Texnokaktus.ProgOlymp.Common.Contracts.Messages.GoogleForms.ParticipantApplication
         {
+            ApplicationId = applicationId,
             ContestStageId = application.ContestStageId,
             SubmittedTime = application.CreateTime,
             AgeCategory = application.AgeCategory,

@@ -4,5 +4,5 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abs
 
 public interface IMessageService
 {
-    Task SendParticipantApplicationAsync(ParticipantApplication application);
+    Task SendParticipantApplicationAsync(int applicationId, ParticipantApplication application);
 }

@@ -20,10 +20,10 @@ internal class ApplicationService(IApplicationDataService applicationDataService
                                                    application.RowIndex,
                                                    application.CreateTime,
                                                    application.ParticipantEmail);
-            unitOfWork.ApplicationRepository.AddApplication(model);
-            processedCount++;
-            await messageService.SendParticipantApplicationAsync(application);
+            var createdApplication = unitOfWork.ApplicationRepository.AddApplication(model);
             await unitOfWork.SaveChangesAsync();
+            await messageService.SendParticipantApplicationAsync(createdApplication.Id, application);
+            processedCount++;
         }
 
         if (processedCount > 0)
