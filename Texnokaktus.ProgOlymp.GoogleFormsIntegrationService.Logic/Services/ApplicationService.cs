@@ -31,4 +31,25 @@ internal class ApplicationService(IApplicationDataService applicationDataService
             logger.LogInformation("Processed {Count} new applications for contest stage {ContestStageId}", processedCount, contestStage.Id);
         }
     }
+
+    public async Task WriteApplicationStatusAsync(int applicationId, ApplicationStatusMessage message)
+    {
+        var application = await unitOfWork.ApplicationRepository.GetApplication(applicationId);
+
+        if (application is null)
+        {
+            logger.LogError("The application with id {ApplicationId} is not found", applicationId);
+            return;
+        }
+
+        var sheetId = application.ContestStage.SheetId;
+
+        if (sheetId is null)
+        {
+            logger.LogError("The Sheet id for application {ApplicationId} is not stated", applicationId);
+            return;
+        }
+
+        await applicationDataService.SetStatusMessageAsync(message, sheetId, application.RowIndex);
+    }
 }

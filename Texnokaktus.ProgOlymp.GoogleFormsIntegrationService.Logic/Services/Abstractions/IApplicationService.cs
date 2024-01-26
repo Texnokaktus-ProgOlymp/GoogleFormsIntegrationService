@@ -5,4 +5,5 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abs
 public interface IApplicationService
 {
     Task ProcessNewApplicationsAsync(ContestStageModel contestStage);
+    Task WriteApplicationStatusAsync(int applicationId, ApplicationStatusMessage message);
 }

@@ -29,6 +29,10 @@ builder.Services
 builder.Services.AddMassTransit(configurator =>
 {
     configurator.AddConsumer<ContestStageCreatedConsumer>();
+    configurator.AddConsumer<SuccessfulRegistrationMessageConsumer>();
+    configurator.AddConsumer<InvalidEmailMessageConsumer>();
+    configurator.AddConsumer<IncorrectEmailDomainMessageConsumer>();
+    configurator.AddConsumer<YandexIdLoginDuplicatedConsumer>();
 
     configurator.UsingRabbitMq((context, factoryConfigurator) =>
     {

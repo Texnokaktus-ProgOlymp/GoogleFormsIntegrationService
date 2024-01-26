@@ -5,4 +5,5 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Services.Abs
 public interface IApplicationDataService
 {
     Task<IEnumerable<ParticipantApplication>> GetParticipantApplicationsAsync(ContestStageModel contestStage);
+    Task SetStatusMessageAsync(ApplicationStatusMessage message, string sheetId, int rowIndex);
 }

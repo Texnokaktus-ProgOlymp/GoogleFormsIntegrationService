@@ -1,4 +1,5 @@
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Services.Abstractions;
+using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Models;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.Abstractions;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Exceptions;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Logic.Models;
@@ -40,6 +41,23 @@ internal class SheetsApplicationDataService(IGoogleSheetsService sheetsService,
                    School = row.GetString(8) ?? throw new NoValueException(nameof(ParticipantApplication.School)),
                    SchoolRegion = row.GetString(9) ?? throw new NoValueException(nameof(ParticipantApplication.SchoolRegion)),
                };
+    }
+
+    public async Task SetStatusMessageAsync(ApplicationStatusMessage message, string sheetId, int rowIndex)
+    {
+        var valueRange = new ValueRange
+        {
+            MajorDimension = "ROWS",
+            Range = $"R{rowIndex}C{ColumnCount}:R{rowIndex}C{ColumnCount + 1}",
+            Values =
+            [
+                [
+                    message.YandexIdLogin ?? string.Empty,
+                    message.StatusMessage
+                ]
+            ]
+        };
+        await sheetsService.UpdateRangeAsync(sheetId, valueRange);
     }
 }
 

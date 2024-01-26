@@ -5,6 +5,7 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Reposit
 
 public interface IApplicationRepository
 {
+    Task<Application?> GetApplication(int applicationId);
     Task<IList<Application>> GetApplications(int contestStageId);
     Application AddApplication(ApplicationInsertModel model);
 }

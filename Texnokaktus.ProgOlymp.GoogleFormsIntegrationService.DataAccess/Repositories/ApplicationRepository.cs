@@ -8,6 +8,12 @@ namespace Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Reposit
 
 internal class ApplicationRepository(AppDbContext context) : IApplicationRepository
 {
+    public async Task<Application?> GetApplication(int applicationId) =>
+        await context.Applications
+                     .AsNoTracking()
+                     .Include(application => application.ContestStage)
+                     .FirstOrDefaultAsync(application => application.Id == applicationId);
+
     public async Task<IList<Application>> GetApplications(int contestStageId) =>
         await context.Applications
                      .AsNoTracking()
