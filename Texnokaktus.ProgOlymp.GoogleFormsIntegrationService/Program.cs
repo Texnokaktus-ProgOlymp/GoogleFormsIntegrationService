@@ -12,8 +12,6 @@ using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.Secrets.json", false);
-
 // Add services to the container.
 builder.Services
        .AddRouting(options => options.LowercaseUrls = true)
