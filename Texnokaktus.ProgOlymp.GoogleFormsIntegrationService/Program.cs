@@ -22,7 +22,7 @@ builder.Services
        .AddServiceOptions()
        .AddGoogleClientServices()
        .AddLogicServices()
-       .AddStackExchangeRedisCache(options => options.Configuration = "raspberrypi.local");
+       .AddStackExchangeRedisCache(options => options.Configuration = builder.Configuration.GetConnectionString("DefaultRedis"));
 
 builder.Services.AddMassTransit(configurator =>
 {
