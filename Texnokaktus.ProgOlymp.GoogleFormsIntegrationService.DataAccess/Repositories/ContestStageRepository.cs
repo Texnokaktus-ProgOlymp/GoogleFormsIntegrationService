@@ -32,7 +32,13 @@ internal class ContestStageRepository(AppDbContext context) : IContestStageRepos
     public async Task SetLastRowIndex(int id, int lastRowIndex) =>
         await UpdateAsync(id, stage => stage.LastRowIndex = lastRowIndex);
 
-    public void Add(int id, bool isActive) => context.ContestStages.Add(new() { Id = id, IsActive = isActive });
+    public void Add(int id, bool isActive, int lastRowIndex) =>
+        context.ContestStages.Add(new()
+        {
+            Id = id,
+            IsActive = isActive,
+            LastRowIndex = lastRowIndex
+        });
 
     public void Add(ContestStage contestStage) => context.ContestStages.Add(contestStage);
 

@@ -8,7 +8,7 @@ internal class ContestStageService(IUnitOfWork unitOfWork) : IContestStageServic
 {
     public async Task CreateContestStage(int contestStageId)
     {
-        unitOfWork.ContestStageRepository.Add(contestStageId, false);
+        unitOfWork.ContestStageRepository.Add(contestStageId, false, 1);
         await unitOfWork.SaveChangesAsync();
     }
 

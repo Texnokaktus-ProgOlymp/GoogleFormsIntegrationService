@@ -9,7 +9,7 @@ public interface IContestStageRepository
     Task<IList<ContestStage>> GetActiveWithFormIdsAsync();
     Task<int?> GetLastRowIndex(int id);
     Task SetLastRowIndex(int id, int lastRowIndex);
-    void Add(int id, bool isActive);
+    void Add(int id, bool isActive, int lastRowIndex);
     void Add(ContestStage contestStage);
     Task SetSheetIdAsync(int id, string sheetId);
     Task SetActiveAsync(int id, bool isActive);
