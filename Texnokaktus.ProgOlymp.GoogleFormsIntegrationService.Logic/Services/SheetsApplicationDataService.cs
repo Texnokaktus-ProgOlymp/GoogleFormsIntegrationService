@@ -70,7 +70,7 @@ file static class RowExtensions
             : null;
 
     public static DateTime? GetDateTime(this IReadOnlyList<string> row, int index) =>
-        row.GetString(index) is { } str && DateTime.TryParseExact(str, "dd.MM.yyyy hh:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var dateTime)
+        row.GetString(index) is { } str && DateTime.TryParseExact(str, "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var dateTime)
             ? dateTime.ToUniversalTime()
             : null;
 }
