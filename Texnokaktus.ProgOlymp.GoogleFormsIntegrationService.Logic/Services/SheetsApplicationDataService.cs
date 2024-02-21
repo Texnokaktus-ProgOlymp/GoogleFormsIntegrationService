@@ -1,3 +1,4 @@
+using System.Globalization;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.DataAccess.Services.Abstractions;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Models;
 using Texnokaktus.ProgOlymp.GoogleFormsIntegrationService.GoogleClient.Services.Abstractions;
@@ -69,7 +70,7 @@ file static class RowExtensions
             : null;
 
     public static DateTime? GetDateTime(this IReadOnlyList<string> row, int index) =>
-        row.GetString(index) is { } str && DateTime.TryParse(str, out var dateTime)
-            ? DateTime.SpecifyKind(dateTime, DateTimeKind.Local)
+        row.GetString(index) is { } str && DateTime.TryParseExact(str, "dd.MM.yyyy hh:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var dateTime)
+            ? dateTime.ToUniversalTime()
             : null;
 }
