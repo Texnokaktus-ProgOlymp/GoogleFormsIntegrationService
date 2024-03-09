@@ -47,5 +47,4 @@ jobs:
           platforms: linux/arm64/v8
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-        env:
-          GHPAT: ${{ secrets.GITHUB_TOKEN }}
+          build-args: GHPAT=${{ secrets.GITHUB_TOKEN }}
